@@ -1,0 +1,2 @@
+Window creator symulator - program which can open window
+23.03.2019
