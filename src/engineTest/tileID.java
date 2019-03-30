@@ -10,7 +10,7 @@ public class tileID {
     public String getFilename(int id)
     {
         this.id = id;
-        filepath = "./res/til/";
+        filepath = "./res/tilesTXT/";
 
         switch (this.id){
             case 0:
@@ -19,6 +19,8 @@ public class tileID {
             case 1:
                 filename = filepath + "testTile.png";
                 break;
+            case 3:
+                filename = filepath + "grass.png";
         }
         return filename;
     }

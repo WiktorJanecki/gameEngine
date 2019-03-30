@@ -2,12 +2,12 @@ package engineTest;
 
 import renderEngine.tile;
 import renderEngine.windowManager;
+import worldEngine.worldFileReader;
 
 import java.util.concurrent.atomic.AtomicLong;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL11.glTranslatef;
 
 
 public class mainGameLoop {
@@ -23,8 +23,6 @@ public class mainGameLoop {
     public static void main(String[] args) {
         System.out.println("Game started successfully!");
         new mainGameLoop();
-
-
     }
     private mainGameLoop()
     {
@@ -41,6 +39,8 @@ public class mainGameLoop {
         gl2DInit init = new gl2DInit(1280,720);
         tileID tid = new tileID();
         player player = new player();
+        worldFileReader worldFileReader = new worldFileReader("test");
+        tile[][] tile = new tile[20][20];
 
         //
         //LOADING ALL ASSETS
@@ -48,10 +48,13 @@ public class mainGameLoop {
 
 
 
-        tile[][] tile = new tile[15][8];
-        tile[0][0] = new tile (tid.getFilename(1),0,0);
-        tile[1][1] = new tile (tid.getFilename(0),1,1);
-
+        for(int i = 0; i < worldFileReader.getTileid()[0].length;i++)
+        {
+            for(int j= 0;j < worldFileReader.getTileid().length;j++)
+            {
+                tile[j][i] = new tile (tid.getFilename(worldFileReader.getTileid()[j][i]),j,i);
+            }
+        }
         while(!glfwWindowShouldClose(windowManager.getWindow()))
         {
 
@@ -74,7 +77,9 @@ public class mainGameLoop {
 
                 //close window
                 glfwPollEvents();
+                //player move
                 player.move(windowManager.getWindow());
+
             //render
 
                 glClear(GL_COLOR_BUFFER_BIT);
@@ -83,13 +88,18 @@ public class mainGameLoop {
                 // RENDER IMAGES HERE
                 //
 
-                 tile[0][0].bind();
-                 tile[1][1].bind();
-            glPushMatrix();//ZAPISUJE POZYCJE PO RUSZENIU
-            glLoadIdentity();//ZERUJE POZYCJE
-            player.render();//ROBI OBRAZKI NA WYZEROWANEJ POZYCJI
-            glPopMatrix();//WCZYTUJE POZYCJE PO RUSZENIU I OD NOWA
-            glfwSwapBuffers(windowManager.getWindow());
+            for(int i = 0; i < worldFileReader.getTileid()[0].length;i++)
+            {
+                for(int j= 0;j < worldFileReader.getTileid().length;j++)
+                {
+                    tile[j][i].bind();
+                }
+            }
+                glPushMatrix();     //ZAPISUJE POZYCJE PO RUSZENIU
+                glLoadIdentity();   //ZERUJE POZYCJE
+                player.render();    //ROBI OBRAZKI NA WYZEROWANEJ POZYCJI
+                glPopMatrix();      //WCZYTUJE POZYCJE PO RUSZENIU I OD NOWA
+                glfwSwapBuffers(windowManager.getWindow());
         }
         windowManager.windowDelete();
     }

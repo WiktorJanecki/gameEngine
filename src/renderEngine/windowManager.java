@@ -32,7 +32,7 @@ public class windowManager {
     }
     public void windowDelete(){
         glfwTerminate();
-        System.exit(1);
+        System.exit(0);
     }
     public long getWindow(){
         return window;
