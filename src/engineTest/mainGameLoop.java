@@ -1,12 +1,13 @@
 package engineTest;
 
+import renderEngine.tile;
 import renderEngine.windowManager;
-import tileEngine.tile;
 
 import java.util.concurrent.atomic.AtomicLong;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.glTranslatef;
 
 
 public class mainGameLoop {
@@ -34,17 +35,12 @@ public class mainGameLoop {
         //Window
         windowManager windowManager = new windowManager();
         windowManager.windowCreate(TITLE,1280,720);
+
         glfwSwapInterval(1);
 
-        //Gl for 2D&Pixels
-        glViewport(0,0,1280,720);
-        glMatrixMode(GL_PROJECTION);
-        glLoadIdentity();
-        glOrtho(0, 1280, 0, 720, -1, 1);
-        glMatrixMode(GL_MODELVIEW);
-        glEnable(GL_TEXTURE_2D);
-
-
+        gl2DInit init = new gl2DInit(1280,720);
+        tileID tid = new tileID();
+        player player = new player();
 
         //
         //LOADING ALL ASSETS
@@ -53,16 +49,13 @@ public class mainGameLoop {
 
 
         tile[][] tile = new tile[15][8];
-        tile[0][0] = new tile (1,0,0);
-        tile[1][1] = new tile (1,1,1);
-
-
-
-
-
+        tile[0][0] = new tile (tid.getFilename(1),0,0);
+        tile[1][1] = new tile (tid.getFilename(0),1,1);
 
         while(!glfwWindowShouldClose(windowManager.getWindow()))
         {
+
+
             //logic
 
                 //fps counter
@@ -71,7 +64,7 @@ public class mainGameLoop {
                 if(fpsStop- fpsStart.get() >1000)
                 {
                     fpsStart.set(System.currentTimeMillis());
-                    glfwSetWindowTitle(windowManager.getWindow(),(TITLE + SPACE +"Version : " + VERSION + SPACE + "FPS : " + "" + fpsCount));
+                    glfwSetWindowTitle(windowManager.getWindow(),(TITLE + SPACE + "Version : " + VERSION + SPACE + "FPS : " + "" + fpsCount));
                     fpsCount=0;
                 }
                 //fps counter
@@ -81,9 +74,7 @@ public class mainGameLoop {
 
                 //close window
                 glfwPollEvents();
-
-
-
+                player.move(windowManager.getWindow());
             //render
 
                 glClear(GL_COLOR_BUFFER_BIT);
@@ -92,12 +83,12 @@ public class mainGameLoop {
                 // RENDER IMAGES HERE
                 //
 
-
-               tile[0][0].bind();
-               tile[1][1].bind();
-
-
-
+                 tile[0][0].bind();
+                 tile[1][1].bind();
+            glPushMatrix();//ZAPISUJE POZYCJE PO RUSZENIU
+            glLoadIdentity();//ZERUJE POZYCJE
+            player.render();//ROBI OBRAZKI NA WYZEROWANEJ POZYCJI
+            glPopMatrix();//WCZYTUJE POZYCJE PO RUSZENIU I OD NOWA
             glfwSwapBuffers(windowManager.getWindow());
         }
         windowManager.windowDelete();

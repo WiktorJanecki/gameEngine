@@ -23,7 +23,7 @@ public class texture {
         IntBuffer height = BufferUtils.createIntBuffer(1);
         IntBuffer comp = BufferUtils.createIntBuffer(1);
 
-        ByteBuffer data = stbi_load("./res/til/" + filename, width , height, comp , 4);
+        ByteBuffer data = stbi_load(filename, width , height, comp , 4);
 
         id = glGenTextures();
         width2 = width.get();
