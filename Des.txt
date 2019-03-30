@@ -1,2 +1,2 @@
-Window creator symulator - program which can open window
-23.03.2019
+Very bad image drawer - Program which can draw image with ctrl+c & ctrl+v method; very bad method and unoptymalized
+26.03.2019
