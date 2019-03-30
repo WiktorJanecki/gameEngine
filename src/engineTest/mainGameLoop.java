@@ -54,10 +54,10 @@ public class mainGameLoop {
 
         tile[][] tile = new tile[15][8];
         tile[0][0] = new tile (1,0,0);
+        tile[1][1] = new tile (1,1,1);
 
 
 
-        tile[5][6] = new tile (1,5,6);
 
 
 
@@ -94,7 +94,7 @@ public class mainGameLoop {
 
 
                tile[0][0].bind();
-               tile[5][6].bind();
+               tile[1][1].bind();
 
 
 

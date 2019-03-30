@@ -1,5 +1,6 @@
 package tileEngine;
 
+import renderEngine.model;
 import renderEngine.texture;
 
 
@@ -43,25 +44,32 @@ public class tile {
     }
     public void bind(){
 
+        float[] vertices = new float[]{
+                (xid +1) * 80 - 80,(yid+1)* 80     ,0,       //top left
+                (xid +1) * 80     ,(yid+1)* 80     ,0,       //top right
+                (xid +1) * 80     ,(yid+1)* 80 - 80,0,       //bottom right
+
+                (xid +1) * 80     ,(yid+1)* 80 - 80,0,       //bottom right
+                (xid +1) * 80 - 80,(yid+1)* 80 - 80,0,       //bottom left
+                (xid +1) * 80 - 80,(yid+1)* 80     ,0,       //top left
+
+        };
+
+        float[] txtVertices = new float[]{
+                0,0,
+                1,0,
+                1,1,
+
+                1,1,
+                0,1,
+                0,0
+        };
+
+        model model = new model(vertices ,txtVertices);
         if(!isItAir) {
             texture.bind();
+            model.render();
 
-
-            glBegin(GL_QUADS);
-
-                glTexCoord2f(0, 0);
-                glVertex2f((xid +1) * 80 - 80, (yid+1) * 80);
-
-                glTexCoord2f(1, 0);
-                glVertex2f((xid +1) * 80, (yid+1)* 80);
-
-                glTexCoord2f(1, 1);
-                glVertex2f((xid +1) * 80, (yid+1)* 80 - 80);
-
-                glTexCoord2f(0, 1);
-                glVertex2f((xid +1) * 80 - 80, (yid+1) * 80 - 80);
-
-            glEnd();
         }
     }
 
