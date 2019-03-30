@@ -1,22 +1,69 @@
 package tileEngine;
 
+import renderEngine.texture;
+
+
+import static org.lwjgl.opengl.GL11.*;
+
 public class tile {
 
 
-    public int id;
-    public String filename;
-    public int x,y;
+    private String filename;
+    private int id, xid,yid;
+    private texture texture;
+    private boolean isItAir = false;
 
-    public tile (int id, String filename,int xpos,int ypos)
+    public tile (int id,int xid,int yid)
     {
         this.id = id;
-        this.filename = filename;
-        x = (xpos * 40 )-40;
-        y = (ypos * 40)-40;
+        this.xid = xid;
+        this.yid = yid;
+
+
+
+        //
+        //ALL TILES IDs
+        //
+
+
+        switch (this.id){
+            case 0:
+                isItAir = true;
+                break;
+            case 1:
+                filename = "testTile.png";
+                break;
+        }
+
+
+
+        if(!isItAir) {
+            texture = new texture(filename);
+        }
     }
+    public void bind(){
+
+        if(!isItAir) {
+            texture.bind();
 
 
+            glBegin(GL_QUADS);
 
+                glTexCoord2f(0, 0);
+                glVertex2f((xid +1) * 80 - 80, (yid+1) * 80);
+
+                glTexCoord2f(1, 0);
+                glVertex2f((xid +1) * 80, (yid+1)* 80);
+
+                glTexCoord2f(1, 1);
+                glVertex2f((xid +1) * 80, (yid+1)* 80 - 80);
+
+                glTexCoord2f(0, 1);
+                glVertex2f((xid +1) * 80 - 80, (yid+1) * 80 - 80);
+
+            glEnd();
+        }
+    }
 
 
 
@@ -29,12 +76,12 @@ public class tile {
         return id;
 
     }
-    public int getX(){
-        return x;
+    public int getXID(){
+        return xid;
 
     }
-    public int getY(){
-        return y;
+    public int getYID(){
+        return yid;
 
     }
     public String getFilename() {
