@@ -47,7 +47,6 @@ public class texture {
 
 
     }
-    public void bind() {
-        glBindTexture(GL_TEXTURE_2D, id);
+    public void bind() {glBindTexture(GL_TEXTURE_2D, id);
     }
 }

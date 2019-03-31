@@ -19,6 +19,9 @@ public class tileID {
             case 1:
                 filename = filepath + "testTile.png";
                 break;
+            case 2:
+                filename = filepath + "man.png";
+                break;
             case 3:
                 filename = filepath + "grass.png";
         }

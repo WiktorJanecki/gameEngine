@@ -11,6 +11,8 @@ public class tile {
     private int xid,yid;
     private texture texture;
     public int tileSize = 80;
+    public model model;
+
 
     public tile (String filename ,int xid,int yid)
     {
@@ -18,9 +20,6 @@ public class tile {
         this.xid = xid;
         this.yid = yid;
         texture = new texture(this.filename);
-    }
-    public void bind(){
-
         float[] vertices = new float[]{
                 (xid +1) * tileSize - tileSize, (yid+1)* tileSize           ,0,       //top left
                 (xid +1) * tileSize           , (yid+1)* tileSize           ,0,       //top right
@@ -42,8 +41,10 @@ public class tile {
                 0,0
         };
 
-        model model = new model(vertices ,txtVertices);
+        model = new model(vertices ,txtVertices);
 
+    }
+    public void bind(){
 
             texture.bind();
             model.render();
