@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL;
 
 import static org.lwjgl.glfw.GLFW.glfwInit;
 import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
 public class windowManager {
@@ -28,6 +29,15 @@ public class windowManager {
         glfwShowWindow(window);
         glfwMakeContextCurrent(window);
         GL.createCapabilities();
+        glViewport(0,0,width,height);
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        glOrtho(0, width, 0, height, -1, 1);
+        glMatrixMode(GL_MODELVIEW);
+        glEnable(GL_TEXTURE_2D);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glfwSwapInterval(1);
 
     }
     public void windowDelete(){
